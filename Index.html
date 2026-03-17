@@ -1,0 +1,917 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+<meta name="apple-mobile-web-app-title" content="The Two" />
+<meta name="theme-color" content="#0a0a0a" />
+<title>The Two — Salaam T. Williams</title>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet" />
+
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --gold: #F2C94C;
+  --gold2: #F7A800;
+  --bg: #080808;
+  --surface: #131313;
+  --surface2: #1a1a1a;
+  --border: #2a2a2a;
+  --border-bright: #3a3a3a;
+  --text: #FFFFFF;
+  --text-dim: #aaaaaa;
+  --text-mute: #666;
+  --text-dead: #333;
+  --green: #52c41a;
+  --green-bg: #1a3a0a;
+  --red: #ff4d4f;
+  --mono: 'Space Mono', monospace;
+  --display: 'Anton', sans-serif;
+}
+
+html, body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--mono);
+  min-height: 100vh;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+.app {
+  max-width: 480px;
+  margin: 0 auto;
+  min-height: 100vh;
+  padding-bottom: 100px;
+}
+
+/* ── HEADER ── */
+.header {
+  padding: 52px 24px 24px;
+  position: relative;
+  overflow: hidden;
+  background: var(--bg);
+  border-bottom: 3px solid var(--gold);
+}
+.header-eyebrow {
+  font-size: 10px;
+  letter-spacing: 6px;
+  color: var(--gold);
+  margin-bottom: 6px;
+  font-weight: 700;
+}
+.header-title {
+  font-family: var(--display);
+  font-size: 76px;
+  line-height: 0.9;
+  color: var(--text);
+  letter-spacing: 3px;
+}
+.header-title span {
+  color: var(--gold);
+}
+.header-sub {
+  font-size: 10px;
+  letter-spacing: 5px;
+  color: var(--text-mute);
+  margin-top: 10px;
+  font-weight: 700;
+}
+.header-bg-num {
+  position: absolute;
+  right: -8px;
+  bottom: -20px;
+  font-family: var(--display);
+  font-size: 220px;
+  color: var(--gold);
+  opacity: 0.04;
+  pointer-events: none;
+  line-height: 1;
+  letter-spacing: -8px;
+}
+
+/* ── NAV ── */
+.nav {
+  display: flex;
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+.nav-btn {
+  flex: 1;
+  padding: 16px 4px;
+  background: none;
+  border: none;
+  border-bottom: 3px solid transparent;
+  color: var(--text-dead);
+  font-size: 11px;
+  letter-spacing: 3px;
+  font-family: var(--mono);
+  cursor: pointer;
+  font-weight: 700;
+  transition: all 0.15s;
+}
+.nav-btn.active {
+  border-bottom-color: var(--gold);
+  color: var(--gold);
+  background: rgba(242,201,76,0.04);
+}
+
+/* ── VIEWS ── */
+.view { padding: 28px 20px; animation: fadeUp 0.2s ease; display: none; }
+.view.active { display: block; }
+@keyframes fadeUp { from { opacity:0; transform:translateY(8px); } to { opacity:1; transform:translateY(0); } }
+
+/* ── DATE BANNER ── */
+.date-banner {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-left: 4px solid var(--gold);
+  padding: 12px 16px;
+  margin-bottom: 28px;
+  font-size: 11px;
+  letter-spacing: 3px;
+  color: var(--text-dim);
+  font-weight: 700;
+}
+
+/* ── MOVEMENT BLOCK ── */
+.movement-block {
+  margin-bottom: 36px;
+}
+.movement-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 4px;
+}
+.movement-name {
+  font-family: var(--display);
+  font-size: 40px;
+  letter-spacing: 2px;
+  color: var(--text);
+  line-height: 1;
+}
+.movement-tag {
+  background: var(--gold);
+  color: var(--bg);
+  font-size: 8px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  padding: 3px 8px;
+  margin-top: 6px;
+  display: inline-block;
+}
+.movement-sub {
+  font-size: 11px;
+  color: var(--text-mute);
+  margin-top: 6px;
+  letter-spacing: 1px;
+  margin-bottom: 16px;
+}
+.movement-stats-row {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+.movement-stat-pill {
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  padding: 6px 12px;
+  font-size: 10px;
+  letter-spacing: 1px;
+}
+.movement-stat-pill .val {
+  color: var(--gold);
+  font-weight: 700;
+  font-size: 13px;
+  display: block;
+}
+.movement-stat-pill .lbl {
+  color: var(--text-dead);
+  font-size: 8px;
+  letter-spacing: 2px;
+}
+
+/* ── SET TABLE ── */
+.set-table-head {
+  display: grid;
+  grid-template-columns: 36px 1fr 1fr 36px;
+  gap: 8px;
+  padding: 0 4px;
+  margin-bottom: 8px;
+}
+.set-table-head span {
+  font-size: 8px;
+  letter-spacing: 3px;
+  color: var(--text-dead);
+  font-weight: 700;
+}
+.set-row {
+  display: grid;
+  grid-template-columns: 36px 1fr 1fr 36px;
+  gap: 8px;
+  margin-bottom: 8px;
+  align-items: center;
+}
+.set-num {
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--text-dead);
+  border: 1px solid var(--border);
+  background: var(--surface);
+  transition: all 0.2s;
+  flex-shrink: 0;
+}
+.set-num.filled {
+  background: var(--gold);
+  color: var(--bg);
+  border-color: var(--gold);
+}
+.set-input {
+  background: var(--surface2);
+  border: 2px solid var(--border);
+  color: var(--text);
+  padding: 10px 14px;
+  font-size: 22px;
+  font-family: var(--mono);
+  font-weight: 700;
+  outline: none;
+  width: 100%;
+  -webkit-appearance: none;
+  transition: border-color 0.15s, background 0.15s;
+  border-radius: 0;
+  letter-spacing: -1px;
+}
+.set-input:focus {
+  border-color: var(--gold);
+  background: #1e1a0a;
+}
+.set-input::placeholder {
+  color: var(--text-dead);
+  font-size: 16px;
+  letter-spacing: 0;
+}
+.set-del {
+  width: 36px;
+  height: 36px;
+  background: none;
+  border: 1px solid var(--border);
+  color: var(--text-dead);
+  cursor: pointer;
+  font-size: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.15s;
+  flex-shrink: 0;
+}
+.set-del:active { background: var(--red); color: white; border-color: var(--red); }
+
+.add-set-btn {
+  background: none;
+  border: 2px dashed var(--border);
+  color: var(--text-mute);
+  padding: 12px;
+  width: 100%;
+  font-size: 10px;
+  letter-spacing: 4px;
+  cursor: pointer;
+  font-family: var(--mono);
+  font-weight: 700;
+  margin-top: 8px;
+  transition: all 0.15s;
+}
+.add-set-btn:active { border-color: var(--gold); color: var(--gold); }
+
+/* ── SEPARATOR ── */
+.mov-separator {
+  height: 1px;
+  background: linear-gradient(to right, var(--gold), transparent);
+  margin: 8px 0 36px;
+  opacity: 0.4;
+}
+
+/* ── SAVE BTN ── */
+.save-btn {
+  border: none;
+  padding: 20px;
+  width: 100%;
+  font-size: 14px;
+  letter-spacing: 5px;
+  font-weight: 700;
+  font-family: var(--mono);
+  cursor: pointer;
+  transition: all 0.2s;
+  background: var(--gold);
+  color: var(--bg);
+  border-radius: 0;
+  display: block;
+  text-transform: uppercase;
+}
+.save-btn:active { transform: scale(0.98); }
+.save-btn.saved {
+  background: var(--green-bg);
+  color: var(--green);
+  border: 2px solid var(--green);
+}
+
+/* ── HISTORY ── */
+.history-empty {
+  text-align: center;
+  padding: 80px 0;
+  font-size: 12px;
+  letter-spacing: 3px;
+  line-height: 2.5;
+  color: var(--text-dead);
+  font-weight: 700;
+}
+.history-count {
+  font-size: 10px;
+  letter-spacing: 4px;
+  color: var(--text-mute);
+  margin-bottom: 20px;
+  font-weight: 700;
+}
+.session-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-left: 4px solid var(--gold2);
+  margin-bottom: 16px;
+  overflow: hidden;
+}
+.session-card-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 14px 16px;
+  background: var(--surface2);
+  border-bottom: 1px solid var(--border);
+}
+.session-date {
+  font-family: var(--display);
+  font-size: 20px;
+  color: var(--text);
+  letter-spacing: 1px;
+}
+.card-del {
+  background: none;
+  border: 1px solid var(--border);
+  color: var(--text-dead);
+  cursor: pointer;
+  font-size: 16px;
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.15s;
+}
+.card-del:active { background: var(--red); color: white; border-color: var(--red); }
+.session-card-body { padding: 14px 16px; }
+.session-mov-label {
+  font-size: 9px;
+  letter-spacing: 4px;
+  color: var(--gold);
+  margin-bottom: 8px;
+  font-weight: 700;
+}
+.session-sets {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  margin-bottom: 8px;
+}
+.session-set-chip {
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  padding: 5px 10px;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--text-dim);
+}
+.session-set-chip .unit { color: var(--text-dead); font-size: 10px; }
+.session-stats-line {
+  font-size: 10px;
+  color: var(--text-dead);
+  letter-spacing: 2px;
+  margin-bottom: 14px;
+  font-weight: 700;
+}
+.session-stats-line .highlight { color: var(--gold); }
+
+/* ── BODY ── */
+.body-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-top: 4px solid var(--gold);
+  padding: 24px 20px;
+  margin-bottom: 28px;
+}
+.body-card-title {
+  font-family: var(--display);
+  font-size: 28px;
+  color: var(--text);
+  margin-bottom: 20px;
+  letter-spacing: 2px;
+}
+.field-group {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+.field-wrap { margin-bottom: 16px; }
+.field-label {
+  font-size: 8px;
+  letter-spacing: 4px;
+  color: var(--text-mute);
+  margin-bottom: 8px;
+  font-weight: 700;
+  display: block;
+}
+.body-input {
+  background: var(--surface2);
+  border: 2px solid var(--border);
+  color: var(--text);
+  padding: 12px 14px;
+  font-size: 24px;
+  font-family: var(--mono);
+  font-weight: 700;
+  outline: none;
+  width: 100%;
+  -webkit-appearance: none;
+  transition: border-color 0.15s;
+  border-radius: 0;
+  letter-spacing: -1px;
+}
+.body-input:focus { border-color: var(--gold); background: #1e1a0a; }
+.body-input::placeholder { color: var(--text-dead); font-size: 16px; font-weight: 400; letter-spacing: 0; }
+.body-textarea {
+  background: var(--surface2);
+  border: 2px solid var(--border);
+  color: var(--text-dim);
+  padding: 12px 14px;
+  font-size: 13px;
+  font-family: var(--mono);
+  outline: none;
+  width: 100%;
+  resize: none;
+  line-height: 1.6;
+  transition: border-color 0.15s;
+  border-radius: 0;
+}
+.body-textarea:focus { border-color: var(--gold); }
+.body-textarea::placeholder { color: var(--text-dead); }
+
+.body-entry {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-left: 4px solid var(--border-bright);
+  padding: 16px;
+  margin-bottom: 12px;
+}
+.body-entry-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+.body-entry-date {
+  font-family: var(--display);
+  font-size: 20px;
+  color: var(--text);
+  letter-spacing: 1px;
+}
+.body-stats-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+}
+.body-stat-box {
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  padding: 8px 10px;
+}
+.body-stat-lbl {
+  font-size: 7px;
+  letter-spacing: 3px;
+  color: var(--text-dead);
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+.body-stat-val {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--text);
+  font-family: var(--display);
+  letter-spacing: 1px;
+}
+.body-stat-unit {
+  font-size: 9px;
+  color: var(--text-mute);
+  margin-left: 2px;
+}
+.body-note-text {
+  font-size: 11px;
+  color: var(--text-mute);
+  margin-top: 10px;
+  font-style: italic;
+  border-top: 1px solid var(--border);
+  padding-top: 10px;
+  line-height: 1.6;
+}
+
+/* ── SCROLLBAR ── */
+::-webkit-scrollbar { width: 2px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--border); }
+
+/* ── HIDE NUMBER SPINNERS ── */
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
+input[type=number] { -moz-appearance: textfield; }
+</style>
+
+</head>
+<body>
+<div class="app">
+
+  <!-- HEADER -->
+
+  <div class="header">
+    <div class="header-eyebrow">SALAAM T. WILLIAMS</div>
+    <div class="header-title">THE <span>TWO</span></div>
+    <div class="header-sub">FOUNDATION TRACKER</div>
+    <div class="header-bg-num">II</div>
+  </div>
+
+  <!-- NAV -->
+
+  <div class="nav">
+    <button class="nav-btn active" onclick="switchView('log',this)">LOG</button>
+    <button class="nav-btn" onclick="switchView('history',this)">HISTORY</button>
+    <button class="nav-btn" onclick="switchView('body',this)">BODY</button>
+  </div>
+
+  <!-- ══ LOG VIEW ══ -->
+
+  <div id="view-log" class="view active">
+    <div class="date-banner" id="log-date"></div>
+
+```
+<!-- PUSH-PULL -->
+<div class="movement-block">
+  <div class="movement-header">
+    <div>
+      <div class="movement-name">PUSH-PULL</div>
+      <div class="movement-tag">MOVEMENT 01</div>
+    </div>
+  </div>
+  <div class="movement-sub">Bench Press + Bent-Over Row</div>
+  <div class="movement-stats-row">
+    <div class="movement-stat-pill" id="pr-pill-bench_row" style="display:none">
+      <span class="val" id="pr-val-bench_row">—</span>
+      <span class="lbl">BEST LIFT</span>
+    </div>
+    <div class="movement-stat-pill" id="vol-pill-bench_row" style="display:none">
+      <span class="val" id="vol-val-bench_row">—</span>
+      <span class="lbl">SESSION VOL</span>
+    </div>
+  </div>
+  <div class="set-table-head">
+    <span>#</span><span>WEIGHT (LBS)</span><span>REPS</span><span></span>
+  </div>
+  <div id="sets-bench_row"></div>
+  <button class="add-set-btn" onclick="addSet('bench_row')">+ ADD SET</button>
+</div>
+
+<div class="mov-separator"></div>
+
+<!-- HINGE-SQUAT -->
+<div class="movement-block">
+  <div class="movement-header">
+    <div>
+      <div class="movement-name">HINGE-SQUAT</div>
+      <div class="movement-tag">MOVEMENT 02</div>
+    </div>
+  </div>
+  <div class="movement-sub">Deadlift + Goblet Squat</div>
+  <div class="movement-stats-row">
+    <div class="movement-stat-pill" id="pr-pill-deadlift_squat" style="display:none">
+      <span class="val" id="pr-val-deadlift_squat">—</span>
+      <span class="lbl">BEST LIFT</span>
+    </div>
+    <div class="movement-stat-pill" id="vol-pill-deadlift_squat" style="display:none">
+      <span class="val" id="vol-val-deadlift_squat">—</span>
+      <span class="lbl">SESSION VOL</span>
+    </div>
+  </div>
+  <div class="set-table-head">
+    <span>#</span><span>WEIGHT (LBS)</span><span>REPS</span><span></span>
+  </div>
+  <div id="sets-deadlift_squat"></div>
+  <button class="add-set-btn" onclick="addSet('deadlift_squat')">+ ADD SET</button>
+</div>
+
+<button class="save-btn" id="save-btn" onclick="saveSession()">SAVE SESSION</button>
+```
+
+  </div>
+
+  <!-- ══ HISTORY VIEW ══ -->
+
+  <div id="view-history" class="view">
+    <div id="history-content"></div>
+  </div>
+
+  <!-- ══ BODY VIEW ══ -->
+
+  <div id="view-body" class="view">
+    <div class="body-card">
+      <div class="body-card-title">LOG TODAY</div>
+
+```
+  <div class="field-wrap">
+    <label class="field-label">BODY WEIGHT (LBS)</label>
+    <input class="body-input" type="number" id="b-weight" placeholder="000" inputmode="decimal" />
+  </div>
+
+  <div class="field-group">
+    <div class="field-wrap">
+      <label class="field-label">WAIST (IN)</label>
+      <input class="body-input" type="number" id="b-waist" placeholder="00" inputmode="decimal" />
+    </div>
+    <div class="field-wrap">
+      <label class="field-label">CHEST (IN)</label>
+      <input class="body-input" type="number" id="b-chest" placeholder="00" inputmode="decimal" />
+    </div>
+    <div class="field-wrap">
+      <label class="field-label">ARMS (IN)</label>
+      <input class="body-input" type="number" id="b-arms" placeholder="00" inputmode="decimal" />
+    </div>
+    <div class="field-wrap">
+      <label class="field-label">NECK (IN)</label>
+      <input class="body-input" type="number" id="b-neck" placeholder="00" inputmode="decimal" />
+    </div>
+  </div>
+
+  <div class="field-wrap">
+    <label class="field-label">NOTES</label>
+    <textarea class="body-textarea" id="b-notes" rows="2" placeholder="How you feeling today..."></textarea>
+  </div>
+
+  <button class="save-btn" id="body-save-btn" onclick="saveBodyStat()">LOG STATS</button>
+</div>
+
+<div id="body-history"></div>
+```
+
+  </div>
+
+</div>
+
+<script>
+const KEYS = { sessions:'salaam_sessions', body:'salaam_body' };
+function load(k,f){try{const v=localStorage.getItem(k);return v?JSON.parse(v):f;}catch{return f;}}
+function persist(k,v){try{localStorage.setItem(k,JSON.stringify(v));}catch{}}
+
+let sessions = load(KEYS.sessions,[]);
+let bodyLog  = load(KEYS.body,[]);
+let logData  = {
+  bench_row:      [{w:'',r:''},{w:'',r:''},{w:'',r:''},{w:'',r:''}],
+  deadlift_squat: [{w:'',r:''},{w:'',r:''},{w:'',r:''},{w:'',r:''}]
+};
+
+// ── NAVIGATION ──────────────────────────────────────────────────────────────
+function switchView(id,btn){
+  document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
+  document.getElementById('view-'+id).classList.add('active');
+  document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  if(id==='history') renderHistory();
+  if(id==='body')    renderBodyHistory();
+}
+
+// ── DATE ────────────────────────────────────────────────────────────────────
+document.getElementById('log-date').textContent =
+  new Date().toLocaleDateString('en-US',{weekday:'long',month:'long',day:'numeric',year:'numeric'}).toUpperCase();
+
+// ── SETS ────────────────────────────────────────────────────────────────────
+function renderSets(mid){
+  const c=document.getElementById('sets-'+mid);
+  c.innerHTML='';
+  logData[mid].forEach((s,i)=>{
+    const filled=s.w&&s.r;
+    const row=document.createElement('div');
+    row.className='set-row';
+    row.innerHTML=`
+      <div class="set-num${filled?' filled':''}">${i+1}</div>
+      <input class="set-input" type="number" placeholder="0" value="${s.w}"
+        oninput="updateSet('${mid}',${i},'w',this.value)" inputmode="decimal" />
+      <input class="set-input" type="number" placeholder="0" value="${s.r}"
+        oninput="updateSet('${mid}',${i},'r',this.value)" inputmode="numeric" />
+      <button class="set-del" onclick="removeSet('${mid}',${i})">×</button>
+    `;
+    c.appendChild(row);
+  });
+  updateStats(mid);
+}
+
+function updateSet(mid,i,field,val){
+  logData[mid][i][field]=val;
+  const nums=document.querySelectorAll(`#sets-${mid} .set-num`);
+  if(nums[i]) nums[i].className='set-num'+(logData[mid][i].w&&logData[mid][i].r?' filled':'');
+  updateStats(mid);
+}
+
+function addSet(mid){
+  logData[mid].push({w:'',r:''});
+  renderSets(mid);
+}
+
+function removeSet(mid,i){
+  if(logData[mid].length<=1)return;
+  logData[mid].splice(i,1);
+  renderSets(mid);
+}
+
+function updateStats(mid){
+  const sets=logData[mid].filter(s=>s.w&&s.r);
+  const vol=sets.reduce((a,s)=>a+parseFloat(s.w)*parseInt(s.r),0);
+  const volPill=document.getElementById('vol-pill-'+mid);
+  const volVal =document.getElementById('vol-val-'+mid);
+  if(vol>0){
+    volVal.textContent=vol.toLocaleString()+' LBS';
+    volPill.style.display='block';
+  } else {
+    volPill.style.display='none';
+  }
+}
+
+function getPR(mid){
+  let best=0;
+  sessions.forEach(s=>(s.movements[mid]||[]).forEach(x=>{
+    if(x.w&&parseFloat(x.w)>best)best=parseFloat(x.w);
+  }));
+  return best>0?best:null;
+}
+
+function refreshPRs(){
+  ['bench_row','deadlift_squat'].forEach(mid=>{
+    const pr=getPR(mid);
+    const pill=document.getElementById('pr-pill-'+mid);
+    const val =document.getElementById('pr-val-'+mid);
+    if(pr){val.textContent=pr+' LBS';pill.style.display='block';}
+    else{pill.style.display='none';}
+  });
+}
+
+// ── SAVE SESSION ────────────────────────────────────────────────────────────
+function saveSession(){
+  const session={
+    id:Date.now(),
+    date:new Date().toLocaleDateString('en-US',{weekday:'short',month:'short',day:'numeric',year:'numeric'}),
+    timestamp:Date.now(),
+    movements:{
+      bench_row:logData.bench_row.map(s=>({w:s.w,r:s.r})),
+      deadlift_squat:logData.deadlift_squat.map(s=>({w:s.w,r:s.r}))
+    }
+  };
+  sessions.unshift(session);
+  persist(KEYS.sessions,sessions);
+  logData={
+    bench_row:[{w:'',r:''},{w:'',r:''},{w:'',r:''},{w:'',r:''}],
+    deadlift_squat:[{w:'',r:''},{w:'',r:''},{w:'',r:''},{w:'',r:''}]
+  };
+  renderSets('bench_row');
+  renderSets('deadlift_squat');
+  refreshPRs();
+  const btn=document.getElementById('save-btn');
+  btn.textContent='✓ SESSION SAVED';
+  btn.classList.add('saved');
+  setTimeout(()=>{btn.textContent='SAVE SESSION';btn.classList.remove('saved');},2400);
+}
+
+// ── HISTORY ─────────────────────────────────────────────────────────────────
+const MOV_LABELS={bench_row:'PUSH-PULL',deadlift_squat:'HINGE-SQUAT'};
+
+function renderHistory(){
+  const el=document.getElementById('history-content');
+  if(!sessions.length){
+    el.innerHTML='<div class="history-empty">NO SESSIONS YET<br><span style="color:#222">LOG YOUR FIRST WORKOUT</span></div>';
+    return;
+  }
+  let html=`<div class="history-count">${sessions.length} SESSION${sessions.length!==1?'S':''} LOGGED</div>`;
+  sessions.forEach(s=>{
+    html+=`<div class="session-card">
+      <div class="session-card-head">
+        <div class="session-date">${s.date}</div>
+        <button class="card-del" onclick="deleteSession(${s.id})">×</button>
+      </div>
+      <div class="session-card-body">`;
+    ['bench_row','deadlift_squat'].forEach(mid=>{
+      const sets=(s.movements[mid]||[]).filter(x=>x.w&&x.r);
+      if(!sets.length)return;
+      const vol=sets.reduce((a,x)=>a+parseFloat(x.w)*parseInt(x.r),0);
+      const peak=Math.max(...sets.map(x=>parseFloat(x.w)));
+      html+=`<div class="session-mov-label">${MOV_LABELS[mid]}</div>
+        <div class="session-sets">
+          ${sets.map(x=>`<div class="session-set-chip">${x.w}<span class="unit"> LBS</span> × ${x.r}</div>`).join('')}
+        </div>
+        <div class="session-stats-line">VOL <span class="highlight">${vol.toLocaleString()}</span> · PEAK <span class="highlight">${peak} LBS</span></div>`;
+    });
+    html+=`</div></div>`;
+  });
+  el.innerHTML=html;
+}
+
+function deleteSession(id){
+  sessions=sessions.filter(s=>s.id!==id);
+  persist(KEYS.sessions,sessions);
+  renderHistory();
+  refreshPRs();
+}
+
+// ── BODY ────────────────────────────────────────────────────────────────────
+function saveBodyStat(){
+  const wt=document.getElementById('b-weight').value;
+  if(!wt)return;
+  const entry={
+    id:Date.now(),
+    date:new Date().toLocaleDateString('en-US',{weekday:'short',month:'short',day:'numeric'}),
+    timestamp:Date.now(),
+    weight:wt,
+    waist:document.getElementById('b-waist').value,
+    chest:document.getElementById('b-chest').value,
+    arms:document.getElementById('b-arms').value,
+    neck:document.getElementById('b-neck').value,
+    notes:document.getElementById('b-notes').value
+  };
+  bodyLog.unshift(entry);
+  persist(KEYS.body,bodyLog);
+  ['b-weight','b-waist','b-chest','b-arms','b-neck','b-notes'].forEach(id=>document.getElementById(id).value='');
+  renderBodyHistory();
+  const btn=document.getElementById('body-save-btn');
+  btn.textContent='✓ LOGGED';
+  btn.classList.add('saved');
+  setTimeout(()=>{btn.textContent='LOG STATS';btn.classList.remove('saved');},2400);
+}
+
+function renderBodyHistory(){
+  const el=document.getElementById('body-history');
+  if(!bodyLog.length){el.innerHTML='';return;}
+  let html=`<div class="history-count" style="margin-bottom:16px">BODY LOG HISTORY</div>`;
+  bodyLog.forEach(e=>{
+    html+=`<div class="body-entry">
+      <div class="body-entry-head">
+        <div class="body-entry-date">${e.date}</div>
+        <button class="card-del" onclick="deleteBodyEntry(${e.id})">×</button>
+      </div>
+      <div class="body-stats-grid">`;
+    if(e.weight) html+=`<div class="body-stat-box"><div class="body-stat-lbl">WEIGHT</div><div class="body-stat-val">${e.weight}<span class="body-stat-unit">lbs</span></div></div>`;
+    if(e.waist)  html+=`<div class="body-stat-box"><div class="body-stat-lbl">WAIST</div><div class="body-stat-val">${e.waist}<span class="body-stat-unit">in</span></div></div>`;
+    if(e.chest)  html+=`<div class="body-stat-box"><div class="body-stat-lbl">CHEST</div><div class="body-stat-val">${e.chest}<span class="body-stat-unit">in</span></div></div>`;
+    if(e.arms)   html+=`<div class="body-stat-box"><div class="body-stat-lbl">ARMS</div><div class="body-stat-val">${e.arms}<span class="body-stat-unit">in</span></div></div>`;
+    if(e.neck)   html+=`<div class="body-stat-box"><div class="body-stat-lbl">NECK</div><div class="body-stat-val">${e.neck}<span class="body-stat-unit">in</span></div></div>`;
+    html+=`</div>`;
+    if(e.notes) html+=`<div class="body-note-text">"${e.notes}"</div>`;
+    html+=`</div>`;
+  });
+  el.innerHTML=html;
+}
+
+function deleteBodyEntry(id){
+  bodyLog=bodyLog.filter(e=>e.id!==id);
+  persist(KEYS.body,bodyLog);
+  renderBodyHistory();
+}
+
+// ── INIT ─────────────────────────────────────────────────────────────────────
+renderSets('bench_row');
+renderSets('deadlift_squat');
+refreshPRs();
+</script>
+
+<!-- PWA -->
+
+<script>
+if('serviceWorker' in navigator){
+  const sw=`const C='the-two-v2';self.addEventListener('install',e=>e.waitUntil(caches.open(C).then(c=>c.addAll([location.href]))));self.addEventListener('fetch',e=>e.respondWith(caches.match(e.request).then(r=>r||fetch(e.request))));`;
+  const blob=new Blob([sw],{type:'application/javascript'});
+  navigator.serviceWorker.register(URL.createObjectURL(blob));
+}
+</script>
+
+</body>
+</html>
